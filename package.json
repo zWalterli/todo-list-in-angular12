@@ -20,6 +20,7 @@
     "@angular/router": "~12.0.4",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "bootstrap": "^5.0.1",
+    "ngx-bootstrap": "^6.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"

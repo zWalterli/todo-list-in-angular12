@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Tool } from '../models/Tool';
 import { ToolService } from '../services/tool.service';
 
@@ -11,11 +12,17 @@ export class ToolsComponent implements OnInit {
 
   tools: Tool[] = [];
   filtroLista: string = '';
+  modalRef!: BsModalRef;
 
-  constructor(private toolService: ToolService) { }
+  constructor(private toolService: ToolService,
+              private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getTools();
+  }
+
+  openModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
   }
 
   getToolsByTag(tag: string){
@@ -25,7 +32,7 @@ export class ToolsComponent implements OnInit {
         console.log(_tools);
       },error => {
         console.log(error);
-      }      
+      }
     );
   }
 
@@ -36,7 +43,7 @@ export class ToolsComponent implements OnInit {
         console.log(_tools);
       },error => {
         console.log(error);
-      }      
+      }
     );
   }
 

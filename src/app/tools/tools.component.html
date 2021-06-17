@@ -20,7 +20,17 @@
       <th scope="row">{{tool.id}}</th>
       <td>{{tool.title}}</td>
       <td>{{tool.link}}</td>
-      <td></td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-success btn-sm mr-2" tooltip="Editar"
+          (click)="openModal(template)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger btn-sm mr-2" tooltip="Excluir">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </td>
     </tr>
   </tbody>
   <tfoot *ngIf="!tools || tools.length < 1">
@@ -31,3 +41,17 @@
     </tr>
   </tfoot>
 </table>
+
+
+<ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Modal</h4>
+      <button type="button" class="close pull-right"
+      aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    This is a modal.
+  </div>
+</ng-template>
