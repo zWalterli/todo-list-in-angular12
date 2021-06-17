@@ -1,3 +1,11 @@
+<div class="form-inline">
+  <div class="form-group mb-2">
+    <input type="text" class="form-control mr-2" placeholder="Buscar"
+    [(ngModel)]="filtroLista">
+    <button class="btn btn-outline-success mr-2" (click)="getToolsByTag(filtroLista)" >Buscar</button>
+  </div>
+</div>
+
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -7,7 +15,7 @@
       <th scope="col">Ação</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="tools && tools.length">
     <tr *ngFor="let tool of tools">
       <th scope="row">{{tool.id}}</th>
       <td>{{tool.title}}</td>
@@ -15,4 +23,11 @@
       <td></td>
     </tr>
   </tbody>
+  <tfoot *ngIf="!tools || tools.length < 1">
+    <tr>
+      <td colspan="4" class="text-center">
+        <h4>Nenhuma tool encontrada!</h4>
+      </td>
+    </tr>
+  </tfoot>
 </table>

@@ -9,12 +9,24 @@ import { ToolService } from '../services/tool.service';
 })
 export class ToolsComponent implements OnInit {
 
-  tools!: Tool[];
+  tools: Tool[] = [];
+  filtroLista: string = '';
 
   constructor(private toolService: ToolService) { }
 
   ngOnInit() {
     this.getTools();
+  }
+
+  getToolsByTag(tag: string){
+    this.toolService.getToolByTag(tag).subscribe(
+      (_tools: Tool[]) => {
+        this.tools = _tools;
+        console.log(_tools);
+      },error => {
+        console.log(error);
+      }      
+    );
   }
 
   getTools(){
