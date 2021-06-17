@@ -16,7 +16,19 @@ constructor(private http: HttpClient) { }
   }
 
   getToolByTag(tag: string) : Observable<Tool[]> {
-    return this.http.get<Tool[]>(`${this.baseURL}/?tag=string`);
+    return this.http.get<Tool[]>(`${this.baseURL}/?tag=${tag}`);
+  }
+
+  postTool(tool: Tool) {
+    return this.http.post(this.baseURL, tool);
+  }
+
+  putTool(tool: Tool) {
+    return this.http.put(this.baseURL, tool);
+  }
+
+  deleteTool(toolId: number) {
+    return this.http.delete(`${this.baseURL}/${toolId}`);
   }
 
 }
