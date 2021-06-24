@@ -1,8 +1,14 @@
-<div class="form-inline">
-  <div class="form-group mb-2">
-    <input type="text" class="form-control mr-2" placeholder="Buscar"
+<div class="form-inline mb-2 mt-2">
+  <div class="input-group">
+    <input type="text" class="form-control mb-2" placeholder="Buscar"
     [(ngModel)]="filtroLista">
-    <button class="btn btn-outline-success mr-2" (click)="getToolsByTag(filtroLista)" >Buscar</button>
+    <div class="input-group-append">
+      <button class="btn btn-outline-success" (click)="getToolsByTag(filtroLista)">Buscar</button>
+      <button class="btn btn-outline-primary" type="button" (click)="openModal(template)">
+        <i class="fa fa-plus-circle"></i>&nbsp;
+        Incluir
+      </button>
+    </div>
   </div>
 </div>
 
@@ -43,15 +49,112 @@
 </table>
 
 
-<ng-template #template>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Modal</h4>
-      <button type="button" class="close pull-right"
-      aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+        <button type="button" class="" (click)="template.hide()" aria-label="Close">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <input type="text" formControlName="id" value="0" hidden>
+              <label>Título</label>
+              <input type="text" class="form-control"
+              [ngClass]="{'is-invalid': registerForm.get('title')!.errors
+                                     && registerForm.get('title')!.touched}"
+              formControlName="title">
+              <div *ngIf="registerForm.get('title')!.hasError('required')
+                       && registerForm.get('title')!.touched" class="invalid-feedback">
+                O Título é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('title')!.hasError('minlength')
+                       && registerForm.get('title')!.touched" class="invalid-feedback">
+                O Título deve ter pelo menos 4 caracteres.
+              </div>
+              <div *ngIf="registerForm.get('title')!.hasError('maxlength')
+                       && registerForm.get('title')!.touched" class="invalid-feedback">
+                O Título deve ter no máximo 50 caracteres.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Descrição</label>
+              <input type="text" class="form-control"
+              [ngClass]="{'is-invalid': registerForm.get('description')!.errors
+                                     && registerForm.get('description')!.touched}"
+              formControlName="description">
+              <div *ngIf="registerForm.get('description')!.hasError('required')
+                       && registerForm.get('description')!.touched" class="invalid-feedback">
+                A descrição é obrigatória.
+              </div>
+              <div *ngIf="registerForm.get('description')!.hasError('minlength')
+                       && registerForm.get('description')!.touched" class="invalid-feedback">
+                A descrição deve ter pelo menos 10 caracteres.
+              </div>
+              <div *ngIf="registerForm.get('description')!.hasError('maxlength')
+                       && registerForm.get('description')!.touched" class="invalid-feedback">
+                A descrição deve ter no máximo 200 caracteres.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Link</label>
+              <input type="text" class="form-control"
+              [ngClass]="{'is-invalid': registerForm.get('link')!.errors
+                                     && registerForm.get('link')!.touched}"
+              formControlName="link">
+              <div *ngIf="registerForm.get('link')!.errors
+                       && registerForm.get('link')!.touched" class="invalid-feedback">
+                O Link é obrigatório.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Tags</label>
+
+              <div formArrayName="tags" class="form-row">
+                <div *ngFor="let tag of tags.controls; let i=index">
+                  <div mb-3 class="input-group mb-3" [formGroupName]="i">
+                    <input class="form-control" type="text" formControlName="tag">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-danger" (click)="removeTag(i)">Deletar</button>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-2">
+                  <button class="btn btn-outline-primary" type="button" (click)="addTag()">Nova Tag</button>
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer d-flex">
+
+        <p> Form Value: {{registerForm.value | json}} </p>
+        <p> Form Status: {{registerForm.status | json}} </p>
+
+        <button class="btn btn-secondary" (click)="template.hide()">
+          Fechar
+        </button>
+        <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="salvarAlteracao(template)">
+          Salvar
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="modal-body">
-    This is a modal.
-  </div>
-</ng-template>
+</div>
