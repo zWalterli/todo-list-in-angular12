@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Tool } from '../models/Tool';
-import { ToolModel } from '../models/ToolModel';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +19,11 @@ constructor(private http: HttpClient) { }
     return this.http.get<Tool[]>(`${this.baseURL}/?tag=${tag}`);
   }
 
-  postTool(tool: ToolModel) {
+  postTool(tool: Tool) {
     return this.http.post(this.baseURL, tool);
   }
 
-  putTool(tool: ToolModel) {
+  putTool(tool: Tool) {
     return this.http.put(this.baseURL, tool);
   }
 
