@@ -1,0 +1,43 @@
+<form [formGroup]="registerForm">
+
+  <div class="row">
+    <div class="col">
+      <label>User Name</label>
+      <input formControlName="username" type="text" class="form-control" placeholder="Username"
+      [ngClass]="{'is-invalid': registerForm.get('username')!.errors
+                             && registerForm.get('username')!.touched}">
+      <div *ngIf="registerForm.get('username')!.hasError('required')
+            && registerForm.get('username')!.touched" class="invalid-feedback">
+            O username é obrigatório.
+      </div>
+    </div>
+
+    <div class="col">
+      <label>Password</label>
+      <input formControlName="password" type="password" class="form-control" placeholder="Password"
+      [ngClass]="{'is-invalid': registerForm.get('password')!.errors
+                             && registerForm.get('password')!.touched}">
+      <div *ngIf="registerForm.get('password')!.hasError('required')
+            && registerForm.get('password')!.touched" class="invalid-feedback">
+            A senha é obrigatória.
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label>Full Name</label>
+      <input formControlName="fullname" type="text" class="form-control" placeholder="fullname"
+      [ngClass]="{'is-invalid': registerForm.get('fullname')!.errors
+                             && registerForm.get('fullname')!.touched}">
+      <div *ngIf="registerForm.get('fullname')!.hasError('required')
+            && registerForm.get('fullname')!.touched" class="invalid-feedback">
+            O Nome é obrigatório.
+      </div>
+    </div>
+  </div>
+
+  <button (click)="register()" type="submit" class="btn btn-primary">Salvar</button>
+  <button (click)="router.navigate(['/user/login'])" class="btn btn-secondary">Voltar</button>
+
+</form>

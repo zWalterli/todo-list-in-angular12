@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray , FormGroup, Validators } from '@angular/forms';
 import { Tool } from '../models/Tool';
-import { ToolService } from '../services/tool.service';
+import { ToolService } from '../services/tool/tool.service';
 import { ToastrService } from "ngx-toastr";
+import { UserService } from '../services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tools',
@@ -26,13 +28,25 @@ export class ToolsComponent implements OnInit {
 
   constructor(private toolService: ToolService,
               private fb: FormBuilder,
-              private toastr: ToastrService)
+              private toastr: ToastrService,
+              private userService : UserService,
+              private router : Router)
               {
               }
 
   ngOnInit() {
-    this.validation();
-    this.getTools();
+    if ( !this.verificaLogado() ) {
+      this.validation();
+      this.getTools();
+    }
+  }
+
+  verificaLogado() {
+    if( !this.userService.loggedIn() ) {
+      this.router.navigate(['/user/login']);
+      return true;
+    }
+    return false;
   }
 
   log(x : any, name? : string) {
@@ -97,7 +111,7 @@ export class ToolsComponent implements OnInit {
   openModal(template: any) {
     this.clearFormArray(this.tags);
     this.registerForm.reset();
-    let xxxx = this.tags.reset();
+    this.tags.reset();
     template.show();
   }
 
@@ -106,7 +120,7 @@ export class ToolsComponent implements OnInit {
       (_tools: Tool[]) => {
         this.tools = _tools;
       },error => {
-        console.log(error);
+        this.toastr.warning("Ocorreu um erro ao capturar as tools!");
       }
     );
   }
@@ -115,9 +129,8 @@ export class ToolsComponent implements OnInit {
     this.toolService.getTool().subscribe(
       (_tools: Tool[]) => {
         this.tools = _tools;
-        this.log( this.tools, "Tools Capturadas do Backend");
       },error => {
-        console.log(error);
+        this.toastr.warning("Ocorreu um erro ao capturar as tools!");
       }
     );
   }
@@ -157,7 +170,6 @@ export class ToolsComponent implements OnInit {
         this.getTools();
       }, error => {
         this.toastr.error("Ocorreu um erro ao criar a Tool.", "Erro!");
-        console.log(console.log(error));
       }
     )
   }
@@ -169,7 +181,6 @@ export class ToolsComponent implements OnInit {
         this.getTools();
       }, error => {
         this.toastr.error("Ocorreu um erro ao atualizar a Tool.", "Erro!");
-        console.log(console.log(error));
       }
     );
   }
@@ -188,7 +199,6 @@ export class ToolsComponent implements OnInit {
         this.toastr.success("Tool deletada com sucesso!", "Sucesso!");
       }, error => {
         this.toastr.error("Ocorreu um erro ao deletar a Tool.", "Erro!");
-        console.log(console.log(error));
       }
     );
     template.hide();

@@ -14,14 +14,20 @@ import { AppComponent } from './app.component';
 import { ToolsComponent } from './tools/tools.component';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
+import { UserComponent } from './user/user.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     ToolsComponent,
       ToolsComponent,
       NavComponent,
-      FooterComponent
+      FooterComponent,
+      UserComponent,
+      LoginComponent,
+      RegistrationComponent
    ],
   imports: [
     BrowserModule,
