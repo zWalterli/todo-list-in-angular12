@@ -51,15 +51,15 @@
 
 <nav>
   <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#" (click)="previousPage()"
+    <li class="page-item"><a class="page-link" (click)="previousPage()"
       *ngIf="ValidaVoltar()" >Voltar</a></li>
-    <li class="page-item"><a class="page-link" href="#" (click)="previousPage()"
+    <li class="page-item"><a class="page-link" (click)="previousPage()"
       *ngIf="ValidaPrimeiro()" >{{page-1}}</a></li>
-    <li class="page-item disabled"><a class="active page-link" href="#"
+    <li class="page-item disabled"><a class="active page-link"
       *ngIf="ValidaSegundo()">{{page}}</a></li>
-    <li class="page-item"><a class="page-link" href="#" (click)="nextPage()"
+    <li class="page-item"><a class="page-link" (click)="nextPage()"
       *ngIf="ValidaTerceiro()">{{page+1}}</a></li>
-    <li class="page-item"><a class="page-link" href="#" (click)="nextPage()"
+    <li class="page-item"><a class="page-link" (click)="nextPage()"
       *ngIf="ValidaProximo()">Próximo</a></li>
   </ul>
 </nav>

@@ -1,6 +1,11 @@
+<h2 class="h2 mt-3 font-weight-normal">Perfil</h2>
+<hr>
 <form [formGroup]="registerForm">
 
   <div class="row">
+
+    <input formControlName="userId" value = "0" type="number" hidden>
+
     <div class="col">
       <label>User Name</label>
       <input formControlName="username" type="text" class="form-control" placeholder="Username"
@@ -24,7 +29,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mt-2">
     <div class="col">
       <label>Full Name</label>
       <input formControlName="fullname" type="text" class="form-control" placeholder="fullname"
@@ -37,7 +42,11 @@
     </div>
   </div>
 
-  <button (click)="register()" type="submit" class="btn btn-primary">Salvar</button>
-  <button (click)="router.navigate(['/user/login'])" class="btn btn-secondary">Voltar</button>
+  <div class="row">
+    <div class="col-2">
+      <button (click)="salvar()" type="submit" class="mt-2 btn-lg btn btn-primary">Confirmar</button>
+      <button (click)="router.navigate(['/user/login'])" class="mt-2 btn btn-secondary">Voltar</button>
+    </div>
+  </div>
 
 </form>

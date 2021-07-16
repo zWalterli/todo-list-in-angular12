@@ -35,18 +35,8 @@ export class ToolsComponent implements OnInit {
               }
 
   ngOnInit() {
-    if ( !this.verificaLogado() ) {
-      this.validation();
-      this.getTools();
-    }
-  }
-
-  verificaLogado() {
-    if( !this.userService.loggedIn() ) {
-      this.router.navigate(['/user/login']);
-      return true;
-    }
-    return false;
+    this.validation();
+    this.getTools();
   }
 
   log(x : any, name? : string) {

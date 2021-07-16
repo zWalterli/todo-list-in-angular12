@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
     return this.userService.Login(user).subscribe(
       () => {
         this.toastr.success( "Bem vindo! :)", "Sucesso!");
+        this.router.navigate(['tools']);
       }, error => {
         this.toastr.warning("Não foi possível logar :(");
       }

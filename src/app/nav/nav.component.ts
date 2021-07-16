@@ -12,6 +12,11 @@ export class NavComponent implements OnInit {
   constructor(private userService : UserService,
               private router : Router) { }
 
+  getNomeUsuarioLogado() {
+    const name = localStorage.getItem('name');
+    return name == null || name == undefined ? "Usuário" : name;
+  }
+
   ngOnInit() {
   }
 
