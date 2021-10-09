@@ -32,9 +32,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  private toBase64(str : string) : string {
+    return btoa(str);
+  }
+
   logar() {
     if(this.loginForm.valid) {
       this.User = this.loginForm.value;
+      this.User.password = this.toBase64(this.User.password);
       this.Login(this.User);
     }
   }
