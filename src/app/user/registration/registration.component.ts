@@ -68,10 +68,14 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
+  private toBase64(str : string) : string {
+    return btoa(str);
+  }
 
   salvar() {
     if(this.registerForm.valid) {
       this.user = this.registerForm.value;
+      this.user.password = this.toBase64(this.user.password);
       if(!this.editandoPerfil){
         if(this.registerForm.value.password == null || this.registerForm.value.password == undefined) {
           this.toastr.error('Por favor, informe uma senha válida!');
