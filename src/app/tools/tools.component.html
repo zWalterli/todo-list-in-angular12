@@ -142,7 +142,8 @@
               <div formArrayName="tags" class="form-row">
                 <div *ngFor="let tag of tags.controls; let i=index">
                   <div mb-3 class="input-group mb-3" [formGroupName]="i">
-                    <input class="form-control"  type="text" formControlName="tag">
+                    <input class="form-control" type="text" formControlName="id" hidden>
+                    <input class="form-control" type="text" formControlName="description">
                     <div class="input-group-append">
                       <button class="btn btn-outline-danger" (click)="removeTag(i)">Deletar</button>
                     </div>
