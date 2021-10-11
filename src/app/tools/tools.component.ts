@@ -5,6 +5,7 @@ import { ToolService } from '../services/tool/tool.service';
 import { ToastrService } from "ngx-toastr";
 import { UserService } from '../services/user/user.service';
 import { Router } from '@angular/router';
+import { Tag } from '../models/Tag';
 
 @Component({
   selector: 'app-tools',
@@ -98,6 +99,10 @@ export class ToolsComponent implements OnInit {
     }
   }
 
+  Log( x : any) {
+    console.log(x);
+  }
+
   openModal(template: any) {
     this.clearFormArray(this.tags);
     this.registerForm.reset();
@@ -120,6 +125,7 @@ export class ToolsComponent implements OnInit {
       (_tools: Tool[]) => {
         this.tools = _tools;
       },error => {
+        console.log("Erro: ", error);
         this.toastr.warning("Ocorreu um erro ao capturar as tools!");
       }
     );
@@ -130,7 +136,7 @@ export class ToolsComponent implements OnInit {
       id: [''],
       title: ['',[Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       link: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       tags: this.fb.array([]),
     });
   }
@@ -139,13 +145,14 @@ export class ToolsComponent implements OnInit {
     return this.registerForm.get('tags') as FormArray;
   }
 
-  newTag(value? : string) : FormGroup {
+  newTag(value? : Tag) : FormGroup {
     return this.fb.group({
-      tag: value == undefined ? '' : value,
+      id: value == undefined ? 0 : value.id,
+      description: value == undefined ? '' : value.description,
     })
   }
 
-  addTag(value? : string) {
+  addTag(value? : Tag) {
     this.tags.push(this.newTag(value));
   }
 
@@ -198,13 +205,11 @@ export class ToolsComponent implements OnInit {
     if(this.registerForm.valid) {
 
       this.tool = Object.assign({}, this.registerForm.value);
-      let qntLinhasTags = this.registerForm.value.tags.length;
       this.tool.tags = [];
 
-      for (let index = 0; index < qntLinhasTags; index++) {
-        const e = this.registerForm.value.tags[index];
-        this.tool.tags.push(e.tag);
-      }
+      this.registerForm.value.tags?.forEach((tag: Tag) => {
+        this.tool.tags.push(tag);
+      });
 
       switch (this.modoSalvar) {
         case 'post':
