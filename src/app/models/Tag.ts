@@ -1,4 +1,6 @@
 export interface Tag {
-    id: number;
-    description: string;
+    id?: number;
+    toolId?: number;
+    description?: string;
+    ativo?: boolean;
 }

@@ -38,7 +38,7 @@ export class UserService {
             if (this.user != null || this.user != undefined) {
               nome = this.user.fullName.split(" ")[0];
               localStorage.setItem('name', nome.substr(0,1).toUpperCase() + nome.substr(1).toLowerCase());
-              localStorage.setItem('id', this.user.userId.toString());
+              localStorage.setItem('id', this.user.id.toString());
             }
             localStorage.setItem('name', nome);
 

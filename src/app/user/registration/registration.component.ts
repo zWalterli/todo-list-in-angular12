@@ -27,7 +27,7 @@ export class RegistrationComponent implements OnInit {
 
   preencheForm(user : User) {
     this.registerForm.patchValue({
-      userId : user.userId,
+      id : user.id,
       username: user.userName,
       fullname: user.fullName
     });
@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
 
   validation(){
     this.registerForm = this.fb.group({
-      userId: ['0'],
+      id: [null],
       username: ['', Validators.required],
       fullname: ['', Validators.required],
       password: []

@@ -3,8 +3,6 @@ import { FormBuilder, FormArray , FormGroup, Validators } from '@angular/forms';
 import { Tool } from '../models/Tool';
 import { ToolService } from '../services/tool/tool.service';
 import { ToastrService } from "ngx-toastr";
-import { UserService } from '../services/user/user.service';
-import { Router } from '@angular/router';
 import { Tag } from '../models/Tag';
 
 @Component({
@@ -29,11 +27,8 @@ export class ToolsComponent implements OnInit {
 
   constructor(private toolService: ToolService,
               private fb: FormBuilder,
-              private toastr: ToastrService,
-              private userService : UserService,
-              private router : Router)
-              {
-              }
+              private toastr: ToastrService)
+              { }
 
   ngOnInit() {
     this.validation();
@@ -81,10 +76,10 @@ export class ToolsComponent implements OnInit {
     this.modoSalvar = 'put';
     this.tool = tool;
 
-    this.tool.tags.forEach(e => {
+    this.tool.tags?.forEach(e => {
       this.addTag(e);
     });
-
+    
     this.registerForm.patchValue(tool);
   }
 
@@ -133,10 +128,10 @@ export class ToolsComponent implements OnInit {
 
   validation(){
     this.registerForm = this.fb.group({
-      id: [''],
-      title: ['',[Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      link: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+      id: [null],
+      title: [null,[Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      link: [null, Validators.required],
+      description: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       tags: this.fb.array([]),
     });
   }
@@ -147,7 +142,8 @@ export class ToolsComponent implements OnInit {
 
   newTag(value? : Tag) : FormGroup {
     return this.fb.group({
-      id: value == undefined ? 0 : value.id,
+      id: value == undefined ? null : value.id,
+      toolId: value == undefined ? null : value.toolId,
       description: value == undefined ? '' : value.description,
     })
   }
@@ -190,7 +186,7 @@ export class ToolsComponent implements OnInit {
   }
 
   deleteTool(template : any) {
-    this.toolService.deleteTool(this.tool.id).subscribe(
+    this.toolService.deleteTool(this.tool?.id).subscribe(
       () => {
         this.getTools();
         this.toastr.success("Tool deletada com sucesso!", "Sucesso!");
@@ -208,12 +204,18 @@ export class ToolsComponent implements OnInit {
       this.tool.tags = [];
 
       this.registerForm.value.tags?.forEach((tag: Tag) => {
-        this.tool.tags.push(tag);
+        if(this.modoSalvar === 'put')
+          tag.toolId = this.tool?.id;
+        
+        this.tool?.tags?.push(tag);
       });
+
+      console.log("this.registerForm.value.tags", this.registerForm.value.tags);
+      console.log("this.tool", this.tool);
 
       switch (this.modoSalvar) {
         case 'post':
-          this.tool.id = 0;
+          // this.tool.id = null;
           this.postTool(this.tool);
           break;
 
